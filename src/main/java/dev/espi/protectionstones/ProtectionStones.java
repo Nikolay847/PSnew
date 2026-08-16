@@ -495,7 +495,7 @@ public class ProtectionStones extends JavaPlugin {
         }
 
         // add identifier for protection stone created items
-        im.getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "isPSBlock"), ItemTagType.BYTE, (byte) 1);
+        // im.getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "isPSBlock"), ItemTagType.BYTE, (byte) 1);
 
         is.setItemMeta(im);
 
