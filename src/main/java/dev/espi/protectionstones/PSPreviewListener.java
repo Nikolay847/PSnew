@@ -53,7 +53,7 @@ public class PSPreviewListener implements Listener {
         Material type = hand.getType();
 
         // default ProtectionStone preview size
-        PSProtectBlock options = ProtectionStones.getBlockOptions(hand.getType().name());
+        PSProtectBlock options = ProtectionStones.getBlockOptions(hand);
         int radius = options != null ? options.xRadius : 25;
 
         Location old = last.get(p.getUniqueId());
