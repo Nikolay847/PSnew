@@ -76,6 +76,22 @@ public class ArgInfo implements PSCommandArg {
 
             PSL.msg(p, PSL.INFO_HEADER.msg());
 
+            // Extended ProtectionStones information
+            int regionId = RegionDataManager.getOrCreate(r.getId());
+            BlockVector3 minInfo = r.getWGRegion().getMinimumPoint();
+            BlockVector3 maxInfo = r.getWGRegion().getMaximumPoint();
+
+            PSL.msg(p, ChatColor.GOLD + "§lИнформация о регионе");
+            PSL.msg(p, ChatColor.GRAY + "Название: " + ChatColor.WHITE + (r.getName() == null ? "Безымянный" : r.getName()));
+            PSL.msg(p, ChatColor.GRAY + "Номер региона: " + ChatColor.YELLOW + regionId);
+            PSL.msg(p, ChatColor.GRAY + "Размер: " + ChatColor.YELLOW +
+                    (maxInfo.getBlockX() - minInfo.getBlockX() + 1) + " x " +
+                    (maxInfo.getBlockZ() - minInfo.getBlockZ() + 1) + ChatColor.GRAY + " блоков");
+            PSL.msg(p, ChatColor.GRAY + "Границы: " + ChatColor.WHITE +
+                    "X " + minInfo.getBlockX() + " -> " + maxInfo.getBlockX() +
+                    ", Z " + minInfo.getBlockZ() + " -> " + maxInfo.getBlockZ());
+
+
             // region: %region%, priority: %priority%
             StringBuilder sb = new StringBuilder();
 

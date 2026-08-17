@@ -34,6 +34,7 @@ public class PSCommand extends Command {
     }
 
     static void addDefaultArguments() {
+        ProtectionStones.getInstance().addCommandArgument(new dev.espi.protectionstones.commands.ArgDelete());
         ProtectionStones.getInstance().addCommandArgument(new ArgAddRemove());
         ProtectionStones.getInstance().addCommandArgument(new ArgAdmin());
         ProtectionStones.getInstance().addCommandArgument(new ArgBuySell());
