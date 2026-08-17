@@ -588,4 +588,36 @@ public class ListenerClass implements Listener {
         }
     }
 
+
+    /**
+     * Custom ore drops: normal pickaxes drop resources, Silk Touch drops the block.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onOreBreak(BlockBreakEvent e) {
+        Block b = e.getBlock();
+        Player p = e.getPlayer();
+
+        Material drop = switch (b.getType()) {
+            case DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE -> Material.DIAMOND;
+            case EMERALD_ORE, DEEPSLATE_EMERALD_ORE -> Material.EMERALD;
+            case GOLD_ORE, DEEPSLATE_GOLD_ORE -> Material.RAW_GOLD;
+            case IRON_ORE, DEEPSLATE_IRON_ORE -> Material.RAW_IRON;
+            case COPPER_ORE, DEEPSLATE_COPPER_ORE -> Material.RAW_COPPER;
+            case COAL_ORE, DEEPSLATE_COAL_ORE -> Material.COAL;
+            case REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE -> Material.REDSTONE;
+            case LAPIS_ORE, DEEPSLATE_LAPIS_ORE -> Material.LAPIS_LAZULI;
+            case NETHER_QUARTZ_ORE -> Material.QUARTZ;
+            case NETHER_GOLD_ORE -> Material.GOLD_NUGGET;
+            default -> null;
+        };
+
+        if (drop == null) return;
+
+        ItemStack tool = p.getInventory().getItemInMainHand();
+        if (tool.containsEnchantment(Enchantment.SILK_TOUCH)) return;
+
+        e.setDropItems(false);
+        b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(drop));
+    }
+
 }
