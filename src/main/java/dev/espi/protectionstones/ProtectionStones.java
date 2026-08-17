@@ -567,6 +567,7 @@ public class ProtectionStones extends JavaPlugin {
 
         // register event listeners
         getServer().getPluginManager().registerEvents(new ListenerClass(), this);
+        getServer().getPluginManager().registerEvents(new PSPreviewListener(), this);
 
         // check that WorldGuard and WorldEdit are enabled (WorldGuard will only be enabled if there's WorldEdit)
         if (getServer().getPluginManager().getPlugin("WorldGuard") == null || !getServer().getPluginManager().getPlugin("WorldGuard").isEnabled()) {

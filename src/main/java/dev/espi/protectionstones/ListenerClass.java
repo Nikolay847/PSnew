@@ -620,4 +620,68 @@ public class ListenerClass implements Listener {
         b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(drop));
     }
 
+    /**
+     * Fix protection block and ore drops.
+     * Normal pickaxe: ores drop resources and protection stones do not drop.
+     * Silk Touch: protection stone and ore blocks can drop normally.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    public void onMiningDrops(BlockBreakEvent e) {
+        Block block = e.getBlock();
+        Player player = e.getPlayer();
+
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        boolean silk = tool != null && tool.containsEnchantment(Enchantment.SILK_TOUCH);
+
+        // Protection stone block
+        if (ProtectionStones.isProtectBlock(block)) {
+            if (!silk) {
+                e.setDropItems(false);
+            }
+            return;
+        }
+
+        if (silk) return;
+
+        Material drop = null;
+        switch (block.getType()) {
+            case DIAMOND_ORE:
+            case DEEPSLATE_DIAMOND_ORE:
+                drop = Material.DIAMOND; break;
+            case EMERALD_ORE:
+            case DEEPSLATE_EMERALD_ORE:
+                drop = Material.EMERALD; break;
+            case IRON_ORE:
+            case DEEPSLATE_IRON_ORE:
+                drop = Material.RAW_IRON; break;
+            case GOLD_ORE:
+            case DEEPSLATE_GOLD_ORE:
+                drop = Material.RAW_GOLD; break;
+            case COPPER_ORE:
+            case DEEPSLATE_COPPER_ORE:
+                drop = Material.RAW_COPPER; break;
+            case COAL_ORE:
+            case DEEPSLATE_COAL_ORE:
+                drop = Material.COAL; break;
+            case REDSTONE_ORE:
+            case DEEPSLATE_REDSTONE_ORE:
+                drop = Material.REDSTONE; break;
+            case LAPIS_ORE:
+            case DEEPSLATE_LAPIS_ORE:
+                drop = Material.LAPIS_LAZULI; break;
+            case NETHER_QUARTZ_ORE:
+                drop = Material.QUARTZ; break;
+            case NETHER_GOLD_ORE:
+                drop = Material.GOLD_NUGGET; break;
+            default:
+                break;
+        }
+
+        if (drop != null) {
+            e.setDropItems(false);
+            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drop));
+        }
+    }
+
+
 }
