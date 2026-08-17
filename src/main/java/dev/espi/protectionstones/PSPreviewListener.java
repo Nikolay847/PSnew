@@ -43,18 +43,19 @@ public class PSPreviewListener implements Listener {
             return;
         }
 
-        // Preview only for protection stone blocks registered as items in PS
-        if (!ProtectionStones.isProtectBlock(hand)) {
+        // Preview only for protection stone items registered in PS
+        PSProtectBlock options = ProtectionStones.getBlockOptions(hand);
+        if (options == null) {
             last.remove(p.getUniqueId());
+            items.remove(p.getUniqueId());
             return;
         }
 
         Location center = p.getLocation().getBlock().getLocation();
         Material type = hand.getType();
 
-        // default ProtectionStone preview size
-        PSProtectBlock options = ProtectionStones.getBlockOptions(hand);
-        int radius = options != null ? options.xRadius : 25;
+        // ProtectionStone preview size from block configuration
+        int radius = options.xRadius;
 
         Location old = last.get(p.getUniqueId());
         if (old != null && old.equals(center) && items.get(p.getUniqueId()) == type) {
